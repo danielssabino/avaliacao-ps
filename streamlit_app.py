@@ -4,12 +4,16 @@ from datetime import datetime, date
 import time
 import streamlit.components.v1 as components
 from supabase import create_client, Client
+import urllib.parse
 
 # Lê secrets (seguro no cloud)
 url = st.secrets["supabase"]["url"]
 key = st.secrets["supabase"]["key"]
 
 supabase: Client = create_client(url, key)
+
+# Número de WhatsApp (com DDI)
+WHATSAPP_NUMBER = "5511962725786" 
 
 
 def salvar_resposta(nome, data_nascimento, genero, celular, dores, sensacao_corpo, sono, energia, rotina, estatica, resultado, resposta_json):
@@ -335,7 +339,7 @@ if "chat_step" not in st.session_state:
 perguntas = [
     {"chave": "nome", "tipo": "text", "mensagem": "Me fala, como eu posso te chamar?"},
     {"chave": "data_nascimento", "tipo": "date", "mensagem": "{nome}, poderia informar a sua data de nascimento?"},
-    {"chave": "genero", "tipo": "radio", "mensagem": "Agora, {nome}, poderia me dizer qual é o seu sexo biológico", "opcoes": ["Feminino", "Masculino", "Outro", "Prefiro não informar"]},
+    {"chave": "genero", "tipo": "radio", "mensagem": "Agora, {nome}, poderia me dizer qual genero você se identifica?", "opcoes": ["Feminino", "Masculino", "Outro", "Prefiro não informar"]},
     {"chave": "celular", "tipo": "text", "mensagem": "Por fim, {nome}, compartilha comigo seu número de WhatsApp, por favor?"},
     
     
@@ -620,7 +624,7 @@ else:
         #========== GERANDO RECOMENDAÇÃO ===============
         recomendacoes.append(st.session_state.chat_respostas["nome"]+", vou compartilhar o que elaborei exclusivamente para você..")
 
-        drenagem = relxante = shiatsu = miniday = False
+        drenagem = relxante = shiatsu = miniday = mencare = False
 
         texto = ""
         if r.get("genero") != "Masculino":
@@ -640,6 +644,8 @@ else:
                 recomendacoes.append("**Shiatsu:** Vai ajudar a reestabelecer equilíbrio energático e aliviar desconfortos físicos")
                 #texto += "**Relaxante Mencare:** terapia desenvolvida especialmente para pele masculina que visa ajudar a desacelerar.."
                 #texto += "**Shiatsu:** Vai ajudar a reestabelecer equilíbrio energático e aliviar desconfortos físicos"
+                mencare = True
+                shiatsu = True
             else:
                 #recomendacoes.append("**Relaxante 90min:** Vai ajudar a acalmar e equilibrar o corpo e a mente.")
                 texto = "**Relaxante 90min:** Vai ajudar a acalmar e equilibrar o corpo e a mente."
@@ -647,6 +653,7 @@ else:
                     #recomendacoes.append("Combinado com escalda pés com sais de banhos exclusivos que ajudam a regular a bioeletrecidade do corpo, ajuda na reduçaõ dos choques em contato com metal..")
                     texto += "Combinado com escalda pés com sais de banhos exclusivos que ajudam a regular a bioeletrecidade do corpo, ajuda na reduçaõ dos choques em contato com metal.."
                 recomendacoes.append(texto)
+                relxante = True
 
         if rOleoSono > 0:
             recomendacoes.append("**Óleo Essencial Sono:** Para melhorar a qualidade do sono.")
@@ -657,7 +664,23 @@ else:
 
         
         #recomendacoes.append(texto)
+        CUPOM_AVALIACAO = "AVALIACAO50"
+        RECOMENDACAO_RESUMIDA = ""
+        if(drenagem):
+            RECOMENDACAO_RESUMIDA += "Drenagem Linfática, "
+        if(miniday):
+            RECOMENDACAO_RESUMIDA += "Mini Day Spa, "
+        if(mencare):
+            RECOMENDACAO_RESUMIDA += "Mencare e Shiatsu, "
+        if(relxante):
+            RECOMENDACAO_RESUMIDA += "Relaxante 90 minutos, "
+        
+        if rOleoSono >=0:
+            RECOMENDACAO_RESUMIDA += "Óleo Sono"
+        elif rOleoEnergia >= 0:
+            RECOMENDACAO_RESUMIDA += "Óleo Energia"
 
+        recomendacoes.append("Use o copom **"+CUPOM_AVALIACAO+"** para ter um bônus de R$50 para sua jornada de cuidar de sí. Esse cupom é válido até 15/10/25 e não reversível em dinheiro.")
         for rec in recomendacoes:
             with st.chat_message("assistant", avatar=ASSISTANT_AVATAR):
                 st.markdown(rec)
@@ -683,6 +706,27 @@ else:
                         resposta_json=st.session_state.chat_respostas)
 
         # Botão para reiniciar após apresentar o resultado
+        # Mensagem padrão
+        
+        mensagem = f"Olá! Acabei de finalizar a avaliação no Buddha Spa. Me deram esse copum {CUPOM_AVALIACAO} e me recomendaram {RECOMENDACAO_RESUMIDA}"
+        mensagem_encoded = urllib.parse.quote(mensagem)
+        wa_url = f"https://wa.me/{WHATSAPP_NUMBER}?text={mensagem_encoded}"
+        
+
+        # Botão que abre em nova aba
+        # Botão como link estilizado
+        st.markdown(
+            f"""
+            <a href="{wa_url}" target="_blank">
+                <button style="padding:10px 20px; border:none; border-radius:8px; background-color:#25D366; color:white; font-size:16px; cursor:pointer;">
+                    📲 Fale com nosso time
+                </button>
+            </a>
+            """,
+            unsafe_allow_html=True
+        )
+                
+        
         #if st.button("🔄 Reiniciar conversa", key="restart_after_result"):
         #    restart_keep_personal()
         
