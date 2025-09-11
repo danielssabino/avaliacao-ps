@@ -181,6 +181,7 @@ DEFAULT_PAUSE = 0.6         # pausa após a mensagem
 
 # ===== Analytics (GA4 + Meta Pixel) =====
 GA4_ID = "G-E0YMPLJW9S"            # <-- substitua pelo seu ID GA4
+GA_ID = "G-E0YMPLJW9S"            # <-- substitua pelo seu ID GA4
 PIXEL_ID = "821834817180823"       # <-- substitua pelo seu Pixel ID
 
 def inject_tracking_scripts():
@@ -214,7 +215,32 @@ def track_event(name: str, params: dict | None = None):
     try {{ if (typeof fbq  === 'function') fbq('Lead', '{name}', {payload}); }} catch(e){{}}
     </script>
     """, height=0)
-
+#Daniel
+st.markdown(
+    f"""
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+      gtag('config', '{GA_ID}');
+    </script>
+    """,
+    unsafe_allow_html=True
+)
+def track_eventDaniel(event_name: str, params: dict = None):
+    params_js = "{}" if not params else str(params).replace("'", '"')
+    components.html(
+        f"""
+        <script>
+        if (typeof gtag !== 'undefined') {{
+            gtag('event', '{event_name}', {params_js});
+        }}
+        </script>
+        """,
+        height=0,
+    )
 
 # Função para simular digitação e registrar no histórico
 def send_assistant_message(content: str, typing_delay: float | None = None, pause: float | None = None):
@@ -660,7 +686,7 @@ else:
         #if st.button("🔄 Reiniciar conversa", key="restart_after_result"):
         #    restart_keep_personal()
         
-        
+        track_eventDaniel("tutorial_complete", {"method": "resultado_chat"})
         track_event('generate_lead', {"step": "Recomendacao", "q_key": texto_corrido})
 
 # Fecha wrapper do chat
