@@ -33,7 +33,7 @@ def salvar_resposta(nome, data_nascimento, genero, celular, dores, sensacao_corp
         "resultado": resultado,
         "resposta_json": resposta_json
     }
-    
+
     try:
         supabase.table("PSLeads").insert(data).execute()
     except:
@@ -110,21 +110,26 @@ def _inject_css():
 _inject_css()
 
 # Config do banner/topo
-BANNER_LOGO_URL = "https://yt3.googleusercontent.com/mtlhWqg9IZ6b0FNeCGwdwUNlsiDLR9XG5pmC1GpBoYWW8sZpvv4sqcECGKkTAJvw1qhyguljsb4=s160-c-k-c0x00ffffff-no-rj"  # defina aqui a URL do logo se quiser exibir
-BANNER_TITLE = "Avaliação de Bem-Estar – Buddha Spa Partage Santana"
-BANNER_SUBTITLE = "Autoavaliação rápida para recomendações personalizadas"
+BANNER_LOGO_URL = "https://i.postimg.cc/85S4mr1V/logo-Buddha-Spa-Unidades-ai-5.png"  # defina aqui a URL do logo se quiser exibir
+BANNER_TITLE = "Buddha Spa Partage Santana"
+BANNER_SUBTITLE = "Avaliação de Bem-Estar"
 
 def render_banner():
     st.markdown('<div class="chat-shell"><div class="banner-card">', unsafe_allow_html=True)
-    cols = st.columns([1, 2])
-    with cols[0]:
-        if BANNER_LOGO_URL:
-            st.image(BANNER_LOGO_URL, use_container_width=True)
-        else:
-            st.markdown('<div class="logo-ph">Logo do Buddha Spa</div>', unsafe_allow_html=True)
-    with cols[1]:
-        st.markdown(f'<h4 class="banner-title">{BANNER_TITLE}</h4>', unsafe_allow_html=True)
-        st.markdown(f'<p class="banner-sub">{BANNER_SUBTITLE}</p>', unsafe_allow_html=True)
+    
+    st.markdown(f'<h4 class="banner-title"><center>{BANNER_TITLE}</center></h4>', unsafe_allow_html=True)
+    st.markdown(f'<p class="banner-sub"><center>{BANNER_SUBTITLE}</center></p>', unsafe_allow_html=True)
+    
+    
+    #cols = st.columns([1, 2])
+    #with cols[0]:
+    #    if BANNER_LOGO_URL:
+    #        st.image(BANNER_LOGO_URL, width=400)
+    #    #else:
+    #        #st.markdown('<div class="logo-ph">Logo do Buddha Spa</div>', unsafe_allow_html=True)
+    #with cols[1]:
+    #    st.markdown(f'<h4 class="banner-title">{BANNER_TITLE}</h4>', unsafe_allow_html=True)
+    #    st.markdown(f'<p class="banner-sub">{BANNER_SUBTITLE}</p>', unsafe_allow_html=True)
     st.markdown('</div></div>', unsafe_allow_html=True)
 
 # 🔄 Botão de reinício rápido na barra lateral
@@ -153,7 +158,9 @@ def restart_keep_personal():
 
 
 # Avatares fixos (troque a URL/emoji pelo logo da unidade, se quiser)
-ASSISTANT_AVATAR = "🧘‍♀️"  # ou URL de imagem, ex: "https://seu-dominio/logo.png"
+#Dourado: https://i.postimg.cc/ZnhqR4FH/Design-sem-nome-1.png
+#Marsala: https://i.postimg.cc/BZ5c46Jj/Design-sem-nome.png
+ASSISTANT_AVATAR = "https://i.postimg.cc/ZnhqR4FH/Design-sem-nome-1.png"  # ou URL de imagem, ex: "https://seu-dominio/logo.png"
 USER_AVATAR = "👤"  # ou URL de imagem do usuário/placeholder
 # Controla se mostra o botão inline de reinício em cada pergunta
 SHOW_INLINE_RESTART = False
@@ -174,7 +181,7 @@ DEFAULT_PAUSE = 0.6         # pausa após a mensagem
 
 # ===== Analytics (GA4 + Meta Pixel) =====
 GA4_ID = "G-XXXXXXXXXX"            # <-- substitua pelo seu ID GA4
-PIXEL_ID = "123456789012345"       # <-- substitua pelo seu Pixel ID
+PIXEL_ID = "821834817180823"       # <-- substitua pelo seu Pixel ID
 
 def inject_tracking_scripts():
     if st.session_state.get("tracking_loaded"):
@@ -650,8 +657,8 @@ else:
                         resposta_json=st.session_state.chat_respostas)
 
         # Botão para reiniciar após apresentar o resultado
-        if st.button("🔄 Reiniciar conversa", key="restart_after_result"):
-            restart_keep_personal()
+        #if st.button("🔄 Reiniciar conversa", key="restart_after_result"):
+        #    restart_keep_personal()
         
         
         track_event('generate_lead', {"step": "Recomendacao", "q_key": texto_corrido})
