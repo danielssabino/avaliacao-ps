@@ -211,7 +211,7 @@ def track_event(name: str, params: dict | None = None):
     components.html(f"""
     <script>
     try {{ if (typeof gtag === 'function') gtag('event', '{name}', {payload}); }} catch(e){{}}
-    try {{ if (typeof fbq  === 'function') fbq('trackCustom', '{name}', {payload}); }} catch(e){{}}
+    try {{ if (typeof fbq  === 'function') fbq('Lead', '{name}', {payload}); }} catch(e){{}}
     </script>
     """, height=0)
 
@@ -630,7 +630,7 @@ else:
             #texto += "**Óleo Essencial Energia:** Para melhorar disposição ao acordar."
 
         
-        recomendacoes.append(texto)
+        #recomendacoes.append(texto)
 
         for rec in recomendacoes:
             with st.chat_message("assistant", avatar=ASSISTANT_AVATAR):
