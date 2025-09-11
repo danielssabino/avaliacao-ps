@@ -555,14 +555,14 @@ elif not st.session_state.processing_done:
         status = st.empty()
         progress = st.progress(0)
         etapas = [
-            ("Analisando rotina...", 25),
-            ("Analisando estado emocional...", 55),
-            ("Consolidando resultado...", 85),
-            ("Finalizando...", 100),
+            ("Analisando rotina...", 30, 2),
+            ("Analisando estado emocional...", 75, 6),
+            ("Consolidando resultado...", 90, 2),
+            ("Finalizando...", 100, 1),
         ]
-        for texto, pct in etapas:
+        for texto, pct, mult in etapas:
             status.markdown(texto)
-            time.sleep(0.9)
+            time.sleep(1*mult)
             progress.progress(pct)
         status.markdown("Pronto!")
 
