@@ -266,35 +266,36 @@ if "chat_step" not in st.session_state:
 # Lista de perguntas como um fluxo de conversa
 perguntas = [
     {"chave": "nome", "tipo": "text", "mensagem": "Me fala, como eu posso te chamar?"},
-    {"chave": "data_nascimento", "tipo": "date", "mensagem": "{nome}, você pode me informar a sua data de nascimento?"},
-    {"chave": "genero", "tipo": "radio", "mensagem": "Agora, {nome}, eu preciso que me diga qual é o seu sexo biológico", "opcoes": ["Feminino", "Masculino","Não binário", "Outros", "Prefiro não informar"]},
-    {"chave": "celular", "tipo": "text", "mensagem": "{nome}, você me infora o seu WhatsApp, por favor?"},
-    
-
+    {"chave": "data_nascimento", "tipo": "date", "mensagem": "{nome}, poderia informar a sua data de nascimento?"},
+    {"chave": "genero", "tipo": "radio", "mensagem": "Agora, {nome}, poderia me dizer qual é o seu sexo biológico", "opcoes": ["Feminino", "Masculino", "Outro", "Prefiro não informar"]},
+    {"chave": "celular", "tipo": "text", "mensagem": "Por fim, {nome}, compartilha comigo seu número de WhatsApp, por favor?"},
     
     
+    {"chave": "dores", "tipo": "radio", "mensagem": "Você tem sentido algum desconforto físico frequente? Qual mais te incomoda?", "opcoes": ["Nos ombros e pescoço", "Na lombar", "Nas pernas", "Cabeça pesada" ,"Me sinto bem"]},
+    {"chave": "sensacao_corpo", "tipo": "radio", "mensagem": "Me conta, você tem sentido alguma dessas sensações?", "opcoes": ["Bem cansado, meio pesado(a)..", "Tenho sentido bastante inchaço", "Sinto tensões musculares", "Estou bem, me sinto leve"]},
+    {"chave": "sono", "tipo": "radio", "mensagem": "Qual frase resume seu sono, {nome}?", "opcoes": ["Tenho dificuldade para dormir", "Meu sono está irregular, acordo a noite e perco o sono", "Quanto mais eu durmo, mais quero dormir", "Durmo bem, acordo descansado(a)"]},
     
-    {"chave": "dores", "tipo": "checkboxes", "mensagem": "Você sente algum desconforto físico frequente?", "opcoes": ["Ombros/pescoço", "Lombar", "Pernas/pés", "Não sinto dores recorrentes"]},
-    {"chave": "sensacao_corpo", "tipo": "radio", "mensagem": "Qual sensação você sente mais no corpo?", "opcoes": ["Peso ou inchaço", "Tensão muscular", "Corpo leve"]},
-    {"chave": "sono", "tipo": "radio", "mensagem": "Como você descreveria seu sono?", "opcoes": ["Durmo bem, acordo descansado(a)", "Tenho dificuldade para dormir", "Durmo, mas acordo cansado(a)", "Sono irregular"]},
+     
+    {"chave": "energia", "tipo": "radio", "mensagem": "Qual dessas frase mais representa você no final de um dia?", "opcoes": ["Chego no final do dia estressado(a) ou irritado(a) mentalmente", "Chego cansado(a) fisicamente", "Chego no final do dia esgotado(a) ou sobrecarregado(a)", "Me sinto cansado, mas nada demais", "Chego bem disposto(a) no final do dia"]},
+    {"chave": "rotina", "tipo": "radio", "mensagem": "Escolha qual opção você mais se identifica no dia a dia", "opcoes": ["Minha rotina é bem acelerada", "Sou multi tarefa, estou sempre fazendo muitas coisas",  "Me sinto bem com minha rotina", "Olha, tenho uma rotina tranquila"]},
+    #{"chave": "tempo_livre", "tipo": "radio", "mensagem": "E nos tempos livres, {nome}, o que você faz?", "opcoes": ["Quando tenho tempo livre, descanso", "Passo dia todo em casa", "Nessas horas eu procuro tá com amigos, familia..", "Eu gosto de me manter ativo, fazer algo..", "Eu me vejo diferente das opções"]},
     
-    {"chave": "cpf", "tipo": "text", "mensagem": "Muito obrigado pelas respostas, agora me diga seu CPF."},
+    #{"chave": "ambiente", "tipo": "radio", "mensagem": "Quando você está na sua casa, como você se sente?", "opcoes": ["Me sinto leve, olho ao redor e tudo está organizado e no lugar", "As vezes tá tudo bagunçado e eu arrumo rapidinho", "Tá tudo bagunçado mas eu não tenho energia para arrumar", "Me sinto cansado, parece que tem algo pesado"]},
+    {"chave": "estatica", "tipo": "radio", "mensagem": "Quando você encosta em algo metálico, toma choque?", "opcoes": ["Quase toda vez", "Não é sempre, mas tomo sim..", "Não, não estou tomando choques.."]},
     
-    {"chave": "energia", "tipo": "radio", "mensagem": "Como está sua energia no dia a dia?", "opcoes": ["Me sinto bem disposto(a)", "Canso com facilidade", "Sinto-me estressado(a)", "Me sinto sem energia"]},
-    {"chave": "rotina", "tipo": "radio", "mensagem": "Como você descreveria sua rotina?", "opcoes": ["Corrida e estressante", "Moderada", "Tranquila", "Sedentária"]},
-    {"chave": "tempo_livre", "tipo": "radio", "mensagem": "O que você prefere fazer no tempo livre?", "opcoes": ["Descansar", "Atividades sociais", "Se manter ativo"]},
-    {"chave": "ambiente", "tipo": "radio", "mensagem": "Sua casa costuma ser um ambiente...", "opcoes": ["Leve e organizado", "Pesado ou bagunçado"]},
-    {"chave": "estatica", "tipo": "radio", "mensagem": "Você costuma levar pequenos choques (energia estática)?", "opcoes": ["Sim", "Não"]},
-    {"chave": "objetivo", "tipo": "radio", "mensagem": "O que você gostaria de melhorar primeiro?", "opcoes": ["Reduzir dores", "Melhorar o sono", "Reduzir estresse", "Aumentar energia", "Reduzir inchaço", "Ambiente mais leve"]},
+    #{"chave": "objetivo", "tipo": "radio", "mensagem": "Hoje, o que mais está te incomodando, {nome}?", "opcoes": ["As dores que sinto", "A qualidade do meu sono", "Meu estresse está demais", "O inchaço do meu corpo" ,"Minha energia está muito baixa", "Meu sentimento quando estou em casa", "Não tenho clareza", "Nada está me incomodando.."]},
+    
+    #{"chave": "cpf", "tipo": "text", "mensagem": "Você me informa o seu CPF, por favor?"},
+    #{"chave": "nome_completo", "tipo": "text", "mensagem": "{nome}, preciso também do seu nome completo, por gentileza"},
 ]
 
 
 # Mensagens iniciais (aparecem antes da primeira pergunta)
 INTRO_SEQUENCE = [
-    {"text": "Que bom ter você aqui comigo hoje!", "typing_delay": 0.03, "pause": 0.3},
-    {"text": "Antes de te indicar algo, quero te conhecer um pouco mais sobre você e como anda sua rotina.", "typing_delay": 0.025, "pause": 0.3},
-    {"text": "Assim consigo te recomendar algo que realmente faça diferença.", "typing_delay": 0.025, "pause": 0.4},
-    {"text": "Vamos começar... :D", "typing_delay": 0.025, "pause": 0.4},
+    {"text": "Que bom ter você aqui comigo hoje!", "typing_delay": 0.03, "pause": 0.4},
+    {"text": "Quero te conhecer um pouco mais e saber como anda sua rotina. Assim consigo personalizar algo específico para você..", "typing_delay": 0.025, "pause": 0.4},
+    #{"text": "Assim consigo te recomendar algo que realmente faça diferença.", "typing_delay": 0.025, "pause": 0.3},
+    #{"text": "Vamos começar... :D", "typing_delay": 0.025, "pause": 0.4},
 ]
 
 
@@ -302,9 +303,12 @@ INTRO_SEQUENCE = [
 # Preencha com a chave da pergunta e a mensagem desejada
 PAUSE_MESSAGES = {
     # string simples
-    "sono": "Agora vamos falar rapidinho sobre seu sono, ok?",
+    #"energia": "{nome}, vamos conversar agora sobre a sua disposição.. ",
     # ou com tempos
-    "dores": {"text": "Vamos falar agora sobre dores... ", "typing_delay": 0.02, "pause": 0.7},
+    #"energia": {"text": "E quanto à sua disposição?", "typing_delay": 0.02, "pause": 0.7},
+    #"ambiente": {"text": "Agora eu quero entender um pouco do seu ambiente.", "typing_delay": 0.02, "pause": 0.7},
+    "dores": {"text": "Vou te fazer algumas perguntas sobre como você vem se sentindo últimamente.. ", "typing_delay": 0.02, "pause": 0.7},
+    "cpf": {"text": "Obrigado pelas informações, estou consolidando tudo, enquanto faço isso, vou aproveitar e pedir mais 2 informações..", "typing_delay": 0.02, "pause": 0.7},
 }
 
 # Banner antes do chat
@@ -345,10 +349,35 @@ if st.session_state.chat_step < len(perguntas):
     if st.session_state.chat_step >= len(perguntas):
         st.rerun()
 
+    # 👇 Normaliza o nome se já existir
+    if "nome" in st.session_state.chat_respostas:
+        nome = st.session_state.chat_respostas["nome"].strip()
+        if nome:  # evita erro se for string vazia
+            primeiro_nome = nome.split(" ")[0]  # pega só o primeiro
+            st.session_state.chat_respostas["nome"] = (
+                primeiro_nome[:1].upper() + primeiro_nome[1:].lower()
+            )
+
     atual = perguntas[st.session_state.chat_step]
     chave = atual["chave"]
     tipo = atual["tipo"]
     msg = atual["mensagem"].format(**st.session_state.chat_respostas)
+
+    # Pausa configurável antes da pergunta (com digitação)
+    if chave in PAUSE_MESSAGES and chave not in st.session_state.pause_shown:
+        pause_meta = PAUSE_MESSAGES[chave]
+        if isinstance(pause_meta, dict):
+            text = pause_meta.get("text", "")
+            tdelay = pause_meta.get("typing_delay")
+            ppause = pause_meta.get("pause")
+        else:
+            text = str(pause_meta)
+            tdelay = None
+            ppause = None
+        send_assistant_message(text, tdelay, ppause)
+        st.session_state.pause_shown.add(chave)
+        st.rerun()
+
 
     # Exibe a pergunta com digitação (bolha do assistente) e só então mostra o input
     if "question_shown" not in st.session_state or chave not in st.session_state.question_shown:
@@ -477,38 +506,112 @@ else:
     with st.chat_message("assistant", avatar=ASSISTANT_AVATAR):
         st.success("Avaliação finalizada! Aqui estão suas sugestões personalizadas:")
 
+        rRlx = rShiatsu = rDrenagem = rBanhoImersao = rOleoSono = rOleoEnergia = 0
+
         r = st.session_state.chat_respostas
         recomendacoes = []
 
         if "dores" in r:
-            if "Ombros/pescoço" in r["dores"]:
-                recomendacoes.append("💆 Massagem relaxante para pescoço e ombros.")
-            if "Lombar" in r["dores"]:
-                recomendacoes.append("🧘 Terapia para aliviar tensão lombar.")
-            if "Pernas/pés" in r["dores"]:
-                recomendacoes.append("🦵 Drenagem linfática pode ser ideal para você.")
+            if  "ombros e pescoço" in r["dores"] or "lombar" in r["dores"]:
+                rShiatsu += 1
+            elif "pernas" in r["dores"]:
+                rDrenagem += 1
+            elif "Cabeça pesada" in r["dores"] or "Me sinto bem" in r["dores"]:
+                rRlx += 1
+        
+        if "sensacao_corpo" in r:
+            if  "Bem cansado, meio pesado(a)" in r["sensacao_corpo"] or "Estou bem, me sinto leve" in r["sensacao_corpo"]:
+                rRlx += 1
+            elif "inchaço" in r["sensacao_corpo"]:
+                rDrenagem += 1
+            elif "tensões musculares" in r["sensacao_corpo"]:
+                rShiatsu += 1
 
-        if r.get("sono") == "Tenho dificuldade para dormir":
-            recomendacoes.append("😴 Aromaterapia pode melhorar seu sono.")
+        if "sono" in r:
+            rRlx += 1
+            if  "dificuldade para dormir" in r["sono"] or "sono está irregular" in r["sono"]:
+                rOleoSono += 1
+            elif  "Quanto mais eu durmo, mais quero dormir" in r["sono"]:
+                rOleoEnergia += 1
+        
+        if "energia" in r:
+            if  "irritado(a) mentalmente" in r["energia"] or "Me sinto cansado, mas nada demais" in r["energia"] or "Chego bem disposto(a) no final do dia" in r["energia"]:
+                rRlx += 1
+            elif "Chego cansado(a) fisicamente" in r["energia"] or "esgotado(a) ou sobrecarregado(a)" in r["energia"]:
+                rShiatsu += 1
 
-        if r.get("energia") == "Me sinto sem energia":
-            recomendacoes.append("⚡ Sessões revigorantes para aumentar sua energia.")
+        if "rotina" in r:
+            rRlx += 1
+        
+        if "estatica" in r:
+            if  "Quase toda vez" in r["estatica"] or "Não é sempre, mas tomo sim" in r["estatica"]:
+                rBanhoImersao += 1
+        
+        #========== GERANDO RECOMENDAÇÃO ===============
+        recomendacoes.append(st.session_state.chat_respostas["nome"]+", vou compartilhar o que elaborei exclusivamente para você..")
 
-        texto_corrido = " ".join(recomendacoes)
-        track_event('generate_lead', {"step": "Recomendacao", "q_key": texto_corrido})
+        drenagem = relxante = shiatsu = miniday = False
+
+        texto = ""
+        if r.get("genero") != "Masculino":
+            
+            if rDrenagem > 0:
+                recomendacoes.append("**Drenagem Linfática:** por estimular o sistema linfático vai ajudar na desintoxicação do corpo e alívio dos inchhaços")
+                #texto += "**Drenagem Linfática:** por estimular o sistema linfático vai ajudar na desintoxicação do corpo e alívio dos inchhaços"
+                drenagem = True
+            
+            if rRlx > 0 and rBanhoImersao > 0:
+                recomendacoes.append("**Mini Day Spa**: Vai ajudar a trazer mais calma e desacelerar a rotina do dia a dia. Experiência de 1h30min iniciando com delicioso banho de imersão na hidromassagem e em seguida deliciosa massagem relaxante corporal de 60 minutos.")
+                #texto += "**Mini Day Spa**: Vai ajudar a trazer mais calma e desacelerar a rotina do dia a dia. Experiência de 1h30min iniciando com delicioso banho de imersão na hidromassagem e em seguida deliciosa massagem relaxante corporal de 60 minutos."
+                miniday = True
+        else:
+            if rRlx <= 2:
+                recomendacoes.append("**Relaxante Mencare:** terapia desenvolvida especialmente para pele masculina que visa ajudar a desacelerar..")
+                recomendacoes.append("**Shiatsu:** Vai ajudar a reestabelecer equilíbrio energático e aliviar desconfortos físicos")
+                #texto += "**Relaxante Mencare:** terapia desenvolvida especialmente para pele masculina que visa ajudar a desacelerar.."
+                #texto += "**Shiatsu:** Vai ajudar a reestabelecer equilíbrio energático e aliviar desconfortos físicos"
+            else:
+                recomendacoes.append("**Relaxante 90min:** Vai ajudar a acalmar e equilibrar o corpo e a mente.")
+                #texto += "**Relaxante 90min:** Vai ajudar a acalmar e equilibrar o corpo e a mente."
+                if rBanhoImersao > 0:
+                    recomendacoes.append("Combinado com escalda pés com sais de banhos exclusivos que ajudam a regular a bioeletrecidade do corpo, ajuda na reduçaõ dos choques em contato com metal..")
+                    #texto += "Combinado com escalda pés com sais de banhos exclusivos que ajudam a regular a bioeletrecidade do corpo, ajuda na reduçaõ dos choques em contato com metal.."
+
+
+        if rOleoSono > 0:
+            recomendacoes.append("**Óleo Essencial Sono:** Para melhorar a qualidade do sono.")
+            #texto += "**Óleo Essencial Sono:** Para melhorar a qualidade do sono."
+        elif rOleoEnergia >0:
+            recomendacoes.append("**Óleo Essencial Energia:** Para melhorar disposição ao acordar.")
+            #texto += "**Óleo Essencial Energia:** Para melhorar disposição ao acordar."
+
+        
+        recomendacoes.append(texto)
+
+        #if r.get("sono") == "Tenho dificuldade para dormir":
+        #    recomendacoes.append("😴 Aromaterapia pode melhorar seu sono.")
+
+        #if r.get("energia") == "Me sinto sem energia":
+        #    recomendacoes.append("⚡ Sessões revigorantes para aumentar sua energia.")
+
 
         for rec in recomendacoes:
-            st.write("- ", rec)
+            with st.chat_message("assistant", avatar=ASSISTANT_AVATAR):
+                st.markdown(rec)
+            #st.write("- ", rec)
+                #send_assistant_message(rec)
 
         st.divider()
-        st.subheader("Resumo das respostas")
-        st.json(st.session_state.chat_respostas)
-        st.write("Em breve, nossa equipe entrará em contato via WhatsApp ✨")
+        #st.subheader("Resumo das respostas")
+        #st.json(st.session_state.chat_respostas)
+        #st.write("Em breve, nossa equipe entrará em contato via WhatsApp ✨")
 
         # Botão para reiniciar após apresentar o resultado
         if st.button("🔄 Reiniciar conversa", key="restart_after_result"):
             restart_keep_personal()
-
+        
+        texto_corrido = " ".join(recomendacoes)
+        track_event('generate_lead', {"step": "Recomendacao", "q_key": texto_corrido})
 
 # Fecha wrapper do chat
 st.markdown('</div>', unsafe_allow_html=True)
