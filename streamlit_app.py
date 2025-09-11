@@ -180,7 +180,7 @@ DEFAULT_TYPING_DELAY = 0.02  # segundos por caractere
 DEFAULT_PAUSE = 0.6         # pausa após a mensagem
 
 # ===== Analytics (GA4 + Meta Pixel) =====
-GA4_ID = "G-XXXXXXXXXX"            # <-- substitua pelo seu ID GA4
+GA4_ID = "G-E0YMPLJW9S"            # <-- substitua pelo seu ID GA4
 PIXEL_ID = "821834817180823"       # <-- substitua pelo seu Pixel ID
 
 def inject_tracking_scripts():
