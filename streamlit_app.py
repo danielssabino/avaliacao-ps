@@ -9,11 +9,12 @@ import urllib.parse
 # Lê secrets (seguro no cloud)
 url = st.secrets["supabase"]["url"]
 key = st.secrets["supabase"]["key"]
+tabela = st.secrets["supabase"]["tabela"]
 
 supabase: Client = create_client(url, key)
 
 # Número de WhatsApp (com DDI)
-WHATSAPP_NUMBER = "5511962725786" 
+WHATSAPP_NUMBER = st.secrets["whatsapp"]["numero"]
 
 
 def salvar_resposta(nome, data_nascimento, genero, celular, dores, sensacao_corpo, sono, energia, rotina, estatica, resultado, resposta_json):
@@ -39,7 +40,7 @@ def salvar_resposta(nome, data_nascimento, genero, celular, dores, sensacao_corp
     }
 
     try:
-        supabase.table("PSLeads").insert(data).execute()
+        supabase.table(tabela).insert(data).execute()
     except:
         print("erro salvar db")
 
@@ -708,7 +709,7 @@ else:
         # Botão para reiniciar após apresentar o resultado
         # Mensagem padrão
         
-        mensagem = f"Olá! Acabei de finalizar a avaliação no Buddha Spa. Me deram esse copum {CUPOM_AVALIACAO} e me recomendaram {RECOMENDACAO_RESUMIDA}"
+        mensagem = f"Olá! Acabei de finalizar a avaliação no Buddha Spa Partage Santana. Me deram esse cupom {CUPOM_AVALIACAO} e me recomendaram {RECOMENDACAO_RESUMIDA}"
         mensagem_encoded = urllib.parse.quote(mensagem)
         wa_url = f"https://wa.me/{WHATSAPP_NUMBER}?text={mensagem_encoded}"
         
