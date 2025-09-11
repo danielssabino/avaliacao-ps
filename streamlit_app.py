@@ -3,6 +3,41 @@ import json
 from datetime import datetime, date
 import time
 import streamlit.components.v1 as components
+from supabase import create_client, Client
+
+# Lê secrets (seguro no cloud)
+url = st.secrets["supabase"]["url"]
+key = st.secrets["supabase"]["key"]
+
+supabase: Client = create_client(url, key)
+
+
+def salvar_resposta(nome, data_nascimento, genero, celular, dores, sensacao_corpo, sono, energia, rotina, estatica, resultado, resposta_json):
+    
+    # Converte para datetime
+    data_dt = datetime.strptime(data_nascimento, "%d/%m/%Y")
+    # Formata no padrão ISO para Supabase
+    data_iso = data_dt.strftime("%Y-%m-%d")
+
+    data = {
+        "nome": nome,
+        "data_nascimento": data_iso,
+        "genero": genero,
+        "celular": celular,
+        "dores": dores,
+        "sensacao_corpo": sensacao_corpo,
+        "sono": sono,
+        "energia": energia,
+        "rotina": rotina,
+        "estatica": estatica,
+        "resultado": resultado,
+        "resposta_json": resposta_json
+    }
+    
+    try:
+        supabase.table("PSLeads").insert(data).execute()
+    except:
+        print("erro salvar db")
 
 
 st.set_page_config(page_title="Chat de Avaliação - Buddha Spa", layout="centered")
@@ -475,7 +510,7 @@ elif not st.session_state.processing_done:
         primeiro_nome_raw = "Você"
     primeiro_nome = (primeiro_nome_raw[:1].upper() + primeiro_nome_raw[1:].lower()) if primeiro_nome_raw else "Você"
 
-    track_event('generate_lead', {"step": "Analise_respostas", "q_key": "Analise_respostas"})
+    
 
     with st.chat_message("assistant", avatar=ASSISTANT_AVATAR):
         st.markdown(f"Obrigado pelas informações, **{primeiro_nome}**! Vou iniciar a análise do que você me respondeu.")
@@ -493,6 +528,7 @@ elif not st.session_state.processing_done:
             progress.progress(pct)
         status.markdown("Pronto!")
 
+
     # Persistir mensagens no histórico
     #st.session_state.chat_history.append({"role": "assistant", "content": f"Obrigado pelas informações, **{primeiro_nome}**! Vou iniciar a análise do que você me respondeu."})
     #st.session_state.chat_history.append({"role": "assistant", "content": "Analisando rotina..."})
@@ -500,6 +536,7 @@ elif not st.session_state.processing_done:
     #st.session_state.chat_history.append({"role": "assistant", "content": "Consolidando resultado..."})
 
     st.session_state.processing_done = True
+    track_event('generate_lead', {"step": "Analise_respostas", "q_key": "Analise_respostas"})
     st.rerun()
 
 else:
@@ -571,12 +608,12 @@ else:
                 #texto += "**Relaxante Mencare:** terapia desenvolvida especialmente para pele masculina que visa ajudar a desacelerar.."
                 #texto += "**Shiatsu:** Vai ajudar a reestabelecer equilíbrio energático e aliviar desconfortos físicos"
             else:
-                recomendacoes.append("**Relaxante 90min:** Vai ajudar a acalmar e equilibrar o corpo e a mente.")
-                #texto += "**Relaxante 90min:** Vai ajudar a acalmar e equilibrar o corpo e a mente."
+                #recomendacoes.append("**Relaxante 90min:** Vai ajudar a acalmar e equilibrar o corpo e a mente.")
+                texto = "**Relaxante 90min:** Vai ajudar a acalmar e equilibrar o corpo e a mente."
                 if rBanhoImersao > 0:
-                    recomendacoes.append("Combinado com escalda pés com sais de banhos exclusivos que ajudam a regular a bioeletrecidade do corpo, ajuda na reduçaõ dos choques em contato com metal..")
-                    #texto += "Combinado com escalda pés com sais de banhos exclusivos que ajudam a regular a bioeletrecidade do corpo, ajuda na reduçaõ dos choques em contato com metal.."
-
+                    #recomendacoes.append("Combinado com escalda pés com sais de banhos exclusivos que ajudam a regular a bioeletrecidade do corpo, ajuda na reduçaõ dos choques em contato com metal..")
+                    texto += "Combinado com escalda pés com sais de banhos exclusivos que ajudam a regular a bioeletrecidade do corpo, ajuda na reduçaõ dos choques em contato com metal.."
+                recomendacoes.append(texto)
 
         if rOleoSono > 0:
             recomendacoes.append("**Óleo Essencial Sono:** Para melhorar a qualidade do sono.")
@@ -587,13 +624,6 @@ else:
 
         
         recomendacoes.append(texto)
-
-        #if r.get("sono") == "Tenho dificuldade para dormir":
-        #    recomendacoes.append("😴 Aromaterapia pode melhorar seu sono.")
-
-        #if r.get("energia") == "Me sinto sem energia":
-        #    recomendacoes.append("⚡ Sessões revigorantes para aumentar sua energia.")
-
 
         for rec in recomendacoes:
             with st.chat_message("assistant", avatar=ASSISTANT_AVATAR):
@@ -606,11 +636,24 @@ else:
         #st.json(st.session_state.chat_respostas)
         #st.write("Em breve, nossa equipe entrará em contato via WhatsApp ✨")
 
+        texto_corrido = " ".join(recomendacoes)
+
+        salvar_resposta(nome=r.get("nome"), 
+                        data_nascimento=r.get("data_nascimento"),
+                        genero=r.get("genero"),
+                        celular=r.get("celular"), 
+                        dores=r.get("dores"),
+                        sensacao_corpo=r.get("sensacao_corpo"),
+                        sono=r.get("sono"), 
+                        energia=r.get("energia"),rotina=r.get("rotina"),estatica=r.get("estatica"),
+                        resultado=texto_corrido, 
+                        resposta_json=st.session_state.chat_respostas)
+
         # Botão para reiniciar após apresentar o resultado
         if st.button("🔄 Reiniciar conversa", key="restart_after_result"):
             restart_keep_personal()
         
-        texto_corrido = " ".join(recomendacoes)
+        
         track_event('generate_lead', {"step": "Recomendacao", "q_key": texto_corrido})
 
 # Fecha wrapper do chat
