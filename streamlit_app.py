@@ -19,6 +19,13 @@ WHATSAPP_NUMBER = st.secrets["whatsapp"]["numero"]
 
 def salvar_resposta(nome, data_nascimento, genero, celular, dores, sensacao_corpo, sono, energia, rotina, estatica, resultado, resposta_json):
     
+    # Captura os parâmetros da URL
+    params = st.query_params  # ou st.experimental_get_query_params() em versões antigas
+    
+    utm_source = params.get("utm_source", None)
+    utm_campaign = params.get("utm_campaign", None)
+    utm_content = params.get("utm_content", None)
+
     # Converte para datetime
     data_dt = datetime.strptime(data_nascimento, "%d/%m/%Y")
     # Formata no padrão ISO para Supabase
@@ -36,7 +43,10 @@ def salvar_resposta(nome, data_nascimento, genero, celular, dores, sensacao_corp
         "rotina": rotina,
         "estatica": estatica,
         "resultado": resultado,
-        "resposta_json": resposta_json
+        "resposta_json": resposta_json,
+        "utm_source": utm_source,
+        "utm_campaign": utm_campaign,
+        "utm_content": utm_content
     }
 
     try:
@@ -632,8 +642,8 @@ else:
         if r.get("genero") != "Masculino":
             
             if rDrenagem > 0:
-                recomendacoes.append("**Drenagem Linfática:** por estimular o sistema linfático vai ajudar na desintoxicação do corpo e alívio dos inchhaços")
-                #texto += "**Drenagem Linfática:** por estimular o sistema linfático vai ajudar na desintoxicação do corpo e alívio dos inchhaços"
+                recomendacoes.append("**Drenagem Linfática:** por estimular o sistema linfático vai ajudar na desintoxicação do corpo e alívio dos inchaços")
+                #texto += "**Drenagem Linfática:** por estimular o sistema linfático vai ajudar na desintoxicação do corpo e alívio dos inchaços"
                 drenagem = True
             
             if rRlx > 0 and rBanhoImersao > 0:
@@ -682,7 +692,7 @@ else:
         elif rOleoEnergia >= 0:
             RECOMENDACAO_RESUMIDA += "Óleo Energia"
 
-        recomendacoes.append("Use o copom **"+CUPOM_AVALIACAO+"** para ter um bônus de R$50 para sua jornada de cuidar de sí. Esse cupom é válido até 15/10/25 e não reversível em dinheiro.")
+        recomendacoes.append("Use o cupom **"+CUPOM_AVALIACAO+"** para ter um bônus de R$50 para sua jornada de cuidar de sí. Esse cupom é válido até 15/10/25 e não reversível em dinheiro.")
         for rec in recomendacoes:
             with st.chat_message("assistant", avatar=ASSISTANT_AVATAR):
                 st.markdown(rec)
