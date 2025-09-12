@@ -77,9 +77,8 @@ def _inject_css():
           background: #ffffff;
           border: 1px solid rgba(0,0,0,.12);
           border-radius: 16px;
-          padding: 16px 18px;
           box-shadow: 0 1px 2px rgba(0,0,0,.04);
-          margin: 12px auto;
+          margin: 5px auto;
         }
 
         /* Placeholder de logo e textos do banner */
@@ -102,7 +101,7 @@ def _inject_css():
 
         /* Mobile first tweaks */
         @media (max-width: 680px){
-          .banner-card, .chat-wrapper { margin: 8px; padding: 12px 12px; border-radius: 12px; }
+          .banner-card, .chat-wrapper { margin: 8px; border-radius: 5px; }
           .banner-title { font-size: 18px; }
           .banner-sub { font-size: 13px; }
           .stChatMessage { margin-bottom: .5rem; }
@@ -115,27 +114,30 @@ def _inject_css():
 _inject_css()
 
 # Config do banner/topo
-BANNER_LOGO_URL = "https://i.postimg.cc/85S4mr1V/logo-Buddha-Spa-Unidades-ai-5.png"  # defina aqui a URL do logo se quiser exibir
-BANNER_TITLE = "Buddha Spa Partage Santana"
-BANNER_SUBTITLE = "Avaliação de Bem-Estar"
+#PRETO PARTAGE: https://i.postimg.cc/pXbhnWqt/logo-Buddha-Spa-Unidades-ai-6.png
+#MARSALA PARTAGE: https://i.postimg.cc/85S4mr1V/logo-Buddha-Spa-Unidades-ai-5.png
+#DOURADO PARTAGE https://i.postimg.cc/LXjRdpfz/logo-Buddha-Spa-Unidades-ai-7.png
+BANNER_LOGO_URL = "https://i.postimg.cc/LXjRdpfz/logo-Buddha-Spa-Unidades-ai-7.png"  # defina aqui a URL do logo se quiser exibir
+BANNER_TITLE = "Encontre o tratamento que seu corpo e sua mente precisam"
+BANNER_SUBTITLE = "Em menos de 2 minutos, descubra qual terapia pode trazer mais relaxamento, energia e equilíbrio para sua rotina."
 
 def render_banner():
     st.markdown('<div class="chat-shell"><div class="banner-card">', unsafe_allow_html=True)
+    #st.image(BANNER_LOGO_URL, width=400)
+    #st.markdown(f'<h4 class="banner-title"><center>{BANNER_TITLE}</center></h4>', unsafe_allow_html=True)
+    #st.markdown(f'<p class="banner-sub"><center>{BANNER_SUBTITLE}</center></p>', unsafe_allow_html=True)
     
-    st.markdown(f'<h4 class="banner-title"><center>{BANNER_TITLE}</center></h4>', unsafe_allow_html=True)
-    st.markdown(f'<p class="banner-sub"><center>{BANNER_SUBTITLE}</center></p>', unsafe_allow_html=True)
     
-    
-    #cols = st.columns([1, 2])
-    #with cols[0]:
-    #    if BANNER_LOGO_URL:
-    #        st.image(BANNER_LOGO_URL, width=400)
-    #    #else:
-    #        #st.markdown('<div class="logo-ph">Logo do Buddha Spa</div>', unsafe_allow_html=True)
-    #with cols[1]:
-    #    st.markdown(f'<h4 class="banner-title">{BANNER_TITLE}</h4>', unsafe_allow_html=True)
-    #    st.markdown(f'<p class="banner-sub">{BANNER_SUBTITLE}</p>', unsafe_allow_html=True)
-    st.markdown('</div></div>', unsafe_allow_html=True)
+    cols = st.columns([1, 2])
+    with cols[0]:
+        if BANNER_LOGO_URL:
+            st.image(BANNER_LOGO_URL, width=300)
+        #else:
+            #st.markdown('<div class="logo-ph">Logo do Buddha Spa</div>', unsafe_allow_html=True)
+    with cols[1]:
+        st.markdown(f'<BR><h4 class="banner-title">{BANNER_TITLE}</h4>', unsafe_allow_html=True)
+        st.markdown(f'<p class="banner-sub">{BANNER_SUBTITLE}</p>', unsafe_allow_html=True)
+    #st.markdown('</div></div>', unsafe_allow_html=True)
 
 # 🔄 Botão de reinício rápido na barra lateral
 # Reinicia mantendo dados pessoais e pula para as próximas perguntas
@@ -391,7 +393,6 @@ inject_tracking_scripts()
 
 # Wrapper branco para a área de conversa
 st.markdown('<div class="chat-wrapper">', unsafe_allow_html=True)
-
 
 # Exibe histórico de mensagens com avatares consistentes
 for msg in st.session_state.chat_history:
@@ -720,7 +721,7 @@ else:
             f"""
             <a href="{wa_url}" target="_blank">
                 <button style="padding:10px 20px; border:none; border-radius:8px; background-color:#25D366; color:white; font-size:16px; cursor:pointer;">
-                    📲 Fale com nosso time
+                    📲 Fale com nosso time e agende!
                 </button>
             </a>
             """,
